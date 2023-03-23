@@ -14,7 +14,7 @@ import { User } from 'src/user/user.decorator';
 import { JobService } from './job.service';
 import { AppService } from 'src/app.service';
 
-@Controller('job')
+@Controller('jobs')
 @ApiTags('jobs')
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
@@ -26,13 +26,13 @@ export class JobController {
   @ApiQuery({ type: String, name: 'description', required: false })
   @ApiQuery({ type: String, name: 'full_time', required: false })
   @ApiQuery({ type: String, name: 'location', required: false })
+  @ApiQuery({ type: Number, name: 'page', required: false })
   async getAll(
     @User() user: UserEntity,
     @Query('description') description: string | null,
     @Query('location') location: string | null,
     @Query('full_time', ParseBoolPipe) fullTime: boolean,
-    // @Query('page') page: number | null,
-    // @Query('limit') limit: number | null,
+    @Query('page') page: number | null,
   ) {
     const result = await this.jobService.getJobs(
       description,
@@ -40,10 +40,21 @@ export class JobController {
       fullTime,
     );
 
-    return {
-      data: result,
-      message: 'Success get all jobs',
-    };
+    if (page) {
+      const slices = result.slice(page * 4, (page + 1) * 4);
+      return {
+        page,
+        data: slices,
+        message: 'Success get all jobs',
+      };
+    } else {
+      const slices = result.slice(0, 4);
+      return {
+        page: 1,
+        data: slices,
+        message: 'Success get all jobs',
+      };
+    }
   }
 
   @Get('/:id')

@@ -14,7 +14,7 @@ import * as cookieParser from 'cookie-parser';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService: ConfigService = app.get(ConfigService);
-  const whitelistUrl = ['http://localhost:4002'];
+  const whitelistUrl = ['http://localhost:4002','http://localhost:3000'];
   const config = new DocumentBuilder()
     .setTitle('Dans Pro Test')
     .setDescription('Dans Pro Test API Description')
