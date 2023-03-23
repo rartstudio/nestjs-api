@@ -3,6 +3,7 @@ import * as argon from 'argon2';
 
 const prisma = new PrismaClient();
 async function main() {
+  //username: danspro , password: mypassWORD12@
   const hashPassword = await argon.hash('mypassWORD12@');
   await prisma.user.upsert({
     where: {

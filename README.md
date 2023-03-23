@@ -36,6 +36,10 @@ $ npm install
 
 ```bash
 # development
+$ clone repository nestjs-docker and run the container cause for the database using postgresql
+$ npx prisma migrate dev
+$ npx prisma db seed
+$ credential in seed.ts
 $ npm run start
 
 # watch mode
