@@ -10,6 +10,24 @@ export class JobService {
     private configService: ConfigService,
     private httpService: HttpService,
   ) {}
+
+  async getJob(id: string): Promise<Job> {
+    const url = `${this.configService.get(
+      'JOB_URL',
+    )}/recruitment/positions/${id}`;
+
+    const response = this.httpService.get<Job>(url).pipe(
+      map((response) => {
+        console.log(response);
+        return response;
+      }),
+    );
+
+    const { data } = await lastValueFrom(response);
+
+    return data;
+  }
+
   async getJobs(
     description: string | null,
     location: string | null,

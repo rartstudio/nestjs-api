@@ -5,6 +5,7 @@ import {
   HttpCode,
   Query,
   ParseBoolPipe,
+  Param,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags, ApiQuery } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
@@ -42,6 +43,17 @@ export class JobController {
     return {
       data: result,
       message: 'Success get all jobs',
+    };
+  }
+
+  @Get('/:id')
+  @HttpCode(200)
+  async get(@Param('id') id: string) {
+    const result = await this.jobService.getJob(id);
+
+    return {
+      data: result,
+      message: `Success get job`,
     };
   }
 }
